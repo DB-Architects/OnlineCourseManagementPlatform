@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h2><i class="bi bi-speedometer2"></i> Student Dashboard</h2>
+        <p class="text-muted">Welcome back, {{ session.name }}!</p>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">Enrolled Courses</h6>
+                        <h2>{{ data.enrolled_courses|length if data.enrolled_courses else 0 }}</h2>
+                    </div>
+                    <div>
+                        <i class="bi bi-book-fill" style="font-size: 3rem; opacity: 0.5;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">CGPA</h6>
+                        <h2>{{ "%.2f"|format(data.student.cgpa) if data.student and data.student.cgpa else "N/A" }}</h2>
+                    </div>
+                    <div>
+                        <i class="bi bi-graph-up" style="font-size: 3rem; opacity: 0.5;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">Roll Number</h6>
+                        <h5>{{ data.student.student_roll_id if data.student else "N/A" }}</h5>
+                    </div>
+                    <div>
+                        <i class="bi bi-person-badge" style="font-size: 3rem; opacity: 0.5;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="bi bi-book"></i> My Courses</h5>
+                <a href="{{ url_for('student_courses') }}" class="btn btn-primary btn-sm">
+                    <i class="bi bi-search"></i> Browse All Courses
+                </a>
+            </div>
+            <div class="card-body">
+                {% if data.enrolled_courses %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Course Name</th>
+                                    <th>Credits</th>
+                                    <th>Marks</th>
+                                    <th>Enrollment Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for course in data.enrolled_courses %}
+                                <tr>
+                                    <td>{{ course.name }}</td>
+                                    <td>{{ course.credits }}</td>
+                                    <td>
+                                        {% if course.marks %}
+                                            <span class="badge bg-success">{{ "%.2f"|format(course.marks) }}</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">Not Graded</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ course.enrollment_date.strftime('%Y-%m-%d') if course.enrollment_date else 'N/A' }}</td>
+                                    <td>
+                                        <a href="{{ url_for('student_course_detail', course_id=course.course_id) }}" class="btn btn-sm btn-primary">
+                                            <i class="bi bi-eye"></i> View
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="bi bi-inbox" style="font-size: 3rem; color: #ccc;"></i>
+                        <p class="text-muted mt-2">You are not enrolled in any courses yet.</p>
+                        <a href="{{ url_for('student_courses') }}" class="btn btn-primary">
+                            <i class="bi bi-search"></i> Browse Courses
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

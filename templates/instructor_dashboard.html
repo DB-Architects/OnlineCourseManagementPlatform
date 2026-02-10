@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Instructor Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h2><i class="bi bi-person-workspace"></i> Instructor Dashboard</h2>
+        <p class="text-muted">Welcome, {{ session.name }}!</p>
+    </div>
+</div>
+
+{% if data.instructor %}
+<div class="row mt-3">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h5>Profile Information</h5>
+                <ul class="list-unstyled">
+                    <li><strong>Faculty ID:</strong> {{ data.instructor.faculty_id }}</li>
+                    <li><strong>Position:</strong> {{ data.instructor.post if data.instructor.post else 'N/A' }}</li>
+                    <li><strong>University:</strong> {{ data.instructor.university_name if data.instructor.university_name else 'N/A' }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-book"></i> My Courses</h5>
+            </div>
+            <div class="card-body">
+                {% if data.courses %}
+                    <div class="row">
+                        {% for course in data.courses %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card border-primary">
+                                <div class="card-header">
+                                    <h6 class="mb-0">{{ course.name }}</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">{{ course.description if course.description else 'No description' }}</p>
+                                    <ul class="list-unstyled">
+                                        <li><i class="bi bi-award"></i> Credits: {{ course.credits }}</li>
+                                        <li><i class="bi bi-people"></i> Students: {{ course.student_count }}</li>
+                                    </ul>
+                                    <a href="{{ url_for('instructor_course_detail', course_id=course.course_id) }}" 
+                                       class="btn btn-primary btn-sm">
+                                        <i class="bi bi-eye"></i> Manage Course
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="bi bi-inbox" style="font-size: 3rem; color: #ccc;"></i>
+                        <p class="text-muted mt-2">You are not assigned to teach any courses yet.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

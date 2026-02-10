@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Log In - AcademiaPro{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center" style="min-height: 60vh;">
+    <div class="col-md-5 col-lg-4">
+        <div class="text-center mb-4">
+            <h2 class="fw-bold">Welcome Back</h2>
+            <p class="text-muted">Enter your credentials to access your account.</p>
+        </div>
+
+        <div class="card border-0 shadow-lg">
+            <div class="card-body p-4 p-md-5">
+                <form method="POST" action="{{ url_for('login') }}">
+                    <div class="mb-3">
+                        <label for="email" class="form-label text-muted small fw-bold">EMAIL ADDRESS</label>
+                        <input type="email" class="form-control form-control-lg" id="email" name="email" placeholder="name@example.com" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="password" class="form-label text-muted small fw-bold">PASSWORD</label>
+                        <input type="password" class="form-control form-control-lg" id="password" name="password" placeholder="••••••••" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">
+                        Sign In
+                    </button>
+                    
+                    <div class="text-center">
+                        <small class="text-muted">Don't have an account? <a href="{{ url_for('register') }}" class="text-primary text-decoration-none fw-bold">Create Account</a></small>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="mt-4 text-center">
+            <button class="btn btn-sm btn-link text-muted text-decoration-none" type="button" data-bs-toggle="collapse" data-bs-target="#demoCreds">
+                Need demo credentials? <i class="bi bi-chevron-down"></i>
+            </button>
+            <div class="collapse mt-2" id="demoCreds">
+                <div class="card card-body bg-light border-0 small text-start">
+                    <code>Admin: admin@courseplatform.com / admin123</code>
+                    <code>Student: alice.brown@student.edu / pass123</code>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

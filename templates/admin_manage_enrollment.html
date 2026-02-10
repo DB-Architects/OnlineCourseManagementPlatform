@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Enrollment - {{ data.course.name if data.course else 'Course' }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('admin_dashboard') }}">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('admin_courses') }}">Courses</a></li>
+                <li class="breadcrumb-item active">Manage Enrollment</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+{% if data.course %}
+<div class="row">
+    <div class="col-md-12">
+        <h2>Manage Enrollment: {{ data.course.name }}</h2>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="bi bi-check-circle"></i> Enrolled Students ({{ data.enrolled_students|length }})</h5>
+            </div>
+            <div class="card-body">
+                {% if data.enrolled_students %}
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Roll No</th>
+                                    <th>Marks</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in data.enrolled_students %}
+                                <tr>
+                                    <td>{{ student.name }}</td>
+                                    <td>{{ student.student_roll_id }}</td>
+                                    <td>{{ "%.2f"|format(student.marks) if student.marks else '-' }}</td>
+                                    <td>
+                                        <form method="POST" 
+                                              action="{{ url_for('admin_remove_student', course_id=data.course.course_id, student_id=student.student_id) }}"
+                                              onsubmit="return confirm('Remove this student from the course?');">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                <i class="bi bi-x-circle"></i> Remove
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-muted">No students enrolled yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-person-plus"></i> Add Students to Course</h5>
+            </div>
+            <div class="card-body">
+                {% if data.available_students %}
+                    <form method="POST" action="{{ url_for('admin_add_student', course_id=data.course.course_id) }}">
+                        <div class="mb-3">
+                            <label for="student_id" class="form-label">Select Student</label>
+                            <select class="form-select" id="student_id" name="student_id" required>
+                                <option value="">Choose a student...</option>
+                                {% for student in data.available_students %}
+                                <option value="{{ student.user_id }}">
+                                    {{ student.name }} ({{ student.student_roll_id }})
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-plus-circle"></i> Add Student
+                        </button>
+                    </form>
+                {% else %}
+                    <p class="text-muted">All students are already enrolled or no students available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-12">
+        <a href="{{ url_for('admin_courses') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Courses
+        </a>
+    </div>
+</div>
+
+{% else %}
+<div class="alert alert-warning">
+    <i class="bi bi-exclamation-triangle"></i> Course not found.
+</div>
+{% endif %}
+{% endblock %}

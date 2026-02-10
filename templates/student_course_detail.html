@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block title %}{{ data.course.name if data.course else 'Course Details' }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('student_dashboard') }}">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('student_courses') }}">Courses</a></li>
+                <li class="breadcrumb-item active">{{ data.course.name if data.course else 'Course' }}</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+{% if data.course %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">{{ data.course.name }}</h4>
+            </div>
+            <div class="card-body">
+                <p>{{ data.course.description if data.course.description else 'No description available' }}</p>
+                
+                <h5 class="mt-4">Course Information</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <strong>Credits:</strong> {{ data.course.credits }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>University:</strong> {{ data.course.university_name if data.course.university_name else 'N/A' }}
+                    </li>
+                    {% if data.course.textbook_title %}
+                    <li class="list-group-item">
+                        <strong>Textbook:</strong> {{ data.course.textbook_title }} by {{ data.course.textbook_author }}
+                    </li>
+                    {% endif %}
+                </ul>
+                
+                {% if data.instructors %}
+                <h5 class="mt-4">Instructors</h5>
+                <ul class="list-group">
+                    {% for instructor in data.instructors %}
+                    <li class="list-group-item">
+                        <i class="bi bi-person"></i> {{ instructor.name }}
+                        {% if instructor.post %} - {{ instructor.post }}{% endif %}
+                        {% if instructor.university %} ({{ instructor.university }}){% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                
+                {% if data.topics %}
+                <h5 class="mt-4">Topics Covered</h5>
+                <div>
+                    {% for topic in data.topics %}
+                        <span class="badge bg-info me-2 mb-2">{{ topic.name }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        {% if data.enrollment and data.content %}
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-folder"></i> Course Content</h5>
+            </div>
+            <div class="card-body">
+                {% if data.content %}
+                    <div class="list-group">
+                        {% for item in data.content %}
+                        <a href="{{ item.url }}" target="_blank" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">
+                                    {% if item.type == 'Video' %}
+                                        <i class="bi bi-play-circle text-danger"></i>
+                                    {% elif item.type == 'Document' %}
+                                        <i class="bi bi-file-earmark-pdf text-primary"></i>
+                                    {% elif item.type == 'Assignment' %}
+                                        <i class="bi bi-clipboard-check text-warning"></i>
+                                    {% else %}
+                                        <i class="bi bi-file-earmark"></i>
+                                    {% endif %}
+                                    {{ item.title }}
+                                </h6>
+                                <small class="text-muted">{{ item.type }}</small>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted">No content available yet.</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="col-md-4">
+        {% if data.enrollment %}
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5><i class="bi bi-check-circle"></i> Enrolled</h5>
+                <p class="mb-1"><strong>Enrollment Date:</strong><br> 
+                    {{ data.enrollment.enrollment_date.strftime('%B %d, %Y') if data.enrollment.enrollment_date else 'N/A' }}
+                </p>
+                {% if data.enrollment.marks %}
+                <p class="mb-0"><strong>Current Grade:</strong><br>
+                    <span class="h3">{{ "%.2f"|format(data.enrollment.marks) }}/100</span>
+                </p>
+                {% else %}
+                <p class="mb-0"><strong>Grade:</strong> Not yet assigned</p>
+                {% endif %}
+            </div>
+        </div>
+        {% else %}
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="bi bi-exclamation-circle" style="font-size: 3rem; color: #ffc107;"></i>
+                <h5 class="mt-3">Not Enrolled</h5>
+                <p>You need to enroll in this course to access content</p>
+                <form method="POST" action="{{ url_for('enroll_course', course_id=data.course.course_id) }}">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-plus-circle"></i> Enroll Now
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% else %}
+<div class="alert alert-warning">
+    <i class="bi bi-exclamation-triangle"></i> Course not found.
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,171 @@
+/* --- Modern SaaS Variables --- */
+:root {
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    
+    /* Brand Colors: Indigo & Slate */
+    --brand-primary: #4F46E5;       /* Modern Indigo */
+    --brand-primary-hover: #4338CA;
+    --brand-secondary: #0F172A;     /* Dark Slate */
+    
+    /* Surface Colors */
+    --surface-bg: #F3F4F6;          /* Light Gray Background */
+    --surface-card: #FFFFFF;        /* Pure White Cards */
+    --surface-border: #E5E7EB;      /* Subtle Borders */
+    
+    /* Text Colors */
+    --text-main: #111827;           /* Almost Black */
+    --text-muted: #6B7280;          /* Gray Text */
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--surface-bg);
+    color: var(--text-main);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased; /* Crisp text on Mac */
+}
+
+/* --- Navigation --- */
+.navbar {
+    background-color: var(--surface-card) !important;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    padding: 1rem 0;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    color: var(--brand-secondary) !important;
+    font-size: 1.25rem;
+    letter-spacing: -0.025em;
+}
+
+.nav-link {
+    color: var(--text-muted) !important;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem !important;
+    transition: color 0.2s;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--brand-primary) !important;
+}
+
+/* --- Card Architecture --- */
+.card {
+    background: var(--surface-card);
+    border: 1px solid var(--surface-border);
+    border-radius: 12px; /* Softer corners */
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    transition: all 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-color: var(--brand-primary); /* Subtle active state */
+}
+
+.card-header {
+    background-color: transparent;
+    border-bottom: 1px solid var(--surface-border);
+    padding: 1.25rem 1.5rem;
+}
+
+.card-header h5 {
+    font-weight: 600;
+    margin: 0;
+    color: var(--text-main);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* --- Modern Buttons --- */
+.btn {
+    padding: 0.625rem 1.25rem;
+    font-weight: 500;
+    border-radius: 8px; /* Modern sleek radius */
+    font-size: 0.95rem;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background-color: var(--brand-primary);
+    border-color: var(--brand-primary);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.btn-primary:hover {
+    background-color: var(--brand-primary-hover);
+    border-color: var(--brand-primary-hover);
+    transform: translateY(-1px);
+}
+
+.btn-outline-primary {
+    color: var(--brand-primary);
+    border-color: var(--brand-primary);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--brand-primary);
+}
+
+/* --- Forms --- */
+.form-control, .form-select {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--surface-border);
+    color: var(--text-main);
+    background-color: #FAFAFA; /* Slightly off-white input bg */
+}
+
+.form-control:focus {
+    background-color: #FFFFFF;
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); /* Indigo glow */
+}
+
+/* --- Stats Cards (Dashboard) --- */
+.stat-card {
+    border: none;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Professional Gradients */
+.bg-gradient-primary { background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%); }
+.bg-gradient-success { background: linear-gradient(135deg, #10B981 0%, #059669 100%); }
+.bg-gradient-info    { background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%); }
+.bg-gradient-warning { background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); }
+
+/* --- Table Styling --- */
+.table thead th {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-bottom-width: 1px;
+    background-color: #F9FAFB;
+}
+
+.table td {
+    vertical-align: middle;
+    font-size: 0.95rem;
+    padding: 1rem 0.75rem;
+}
+
+/* --- Hero Section (New) --- */
+.hero-section {
+    background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 6rem 0;
+    border-radius: 16px;
+    margin-bottom: 3rem;
+    text-align: center;
+}
