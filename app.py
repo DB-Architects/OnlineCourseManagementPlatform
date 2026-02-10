@@ -11,7 +11,7 @@ app.secret_key = 'your_secret_key_here_change_in_production'
 DB_CONFIG = {
     'host': 'localhost',
     'user': 'root',
-    'password': '123456',  # <--- REPLACE THIS WITH YOUR REAL PASSWORD
+    'password': 'Praty@9082',  # <--- REPLACE THIS WITH YOUR REAL PASSWORD
     'database': 'course_management'
 }
 
