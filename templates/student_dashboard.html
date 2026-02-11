@@ -11,24 +11,24 @@
 </div>
 
 <div class="row mt-4">
-    <div class="col-md-4">
-        <div class="card bg-primary text-white">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white h-100">
             <div class="card-body">
                 <div class="d-flex justify-content-between">
                     <div>
-                        <h6 class="card-title">Enrolled Courses</h6>
+                        <h6 class="card-title">Enrolled</h6>
                         <h2>{{ data.enrolled_courses|length if data.enrolled_courses else 0 }}</h2>
                     </div>
                     <div>
-                        <i class="bi bi-book-fill" style="font-size: 3rem; opacity: 0.5;"></i>
+                        <i class="bi bi-book-fill" style="font-size: 2.5rem; opacity: 0.5;"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     
-    <div class="col-md-4">
-        <div class="card bg-success text-white">
+    <div class="col-md-3">
+        <div class="card bg-success text-white h-100">
             <div class="card-body">
                 <div class="d-flex justify-content-between">
                     <div>
@@ -36,23 +36,51 @@
                         <h2>{{ "%.2f"|format(data.student.cgpa) if data.student and data.student.cgpa else "N/A" }}</h2>
                     </div>
                     <div>
-                        <i class="bi bi-graph-up" style="font-size: 3rem; opacity: 0.5;"></i>
+                        <i class="bi bi-graph-up" style="font-size: 2.5rem; opacity: 0.5;"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
-    <div class="col-md-4">
-        <div class="card bg-info text-white">
+
+    <div class="col-md-3">
+        <div class="card bg-warning text-dark h-100">
             <div class="card-body">
                 <div class="d-flex justify-content-between">
                     <div>
-                        <h6 class="card-title">Roll Number</h6>
-                        <h5>{{ data.student.student_roll_id if data.student else "N/A" }}</h5>
+                        <h6 class="card-title">Skills</h6>
+                        <h5>{{ data.skills|length if data.skills else 0 }}</h5>
                     </div>
                     <div>
-                        <i class="bi bi-person-badge" style="font-size: 3rem; opacity: 0.5;"></i>
+                        <i class="bi bi-lightning-charge-fill" style="font-size: 2.5rem; opacity: 0.5;"></i>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    {% if data.skills %}
+                        {% for skill in data.skills[:2] %}
+                            <span class="badge bg-dark text-white opacity-75">{{ skill }}</span>
+                        {% endfor %}
+                        {% if data.skills|length > 2 %}
+                            <small>+{{ data.skills|length - 2 }} more</small>
+                        {% endif %}
+                    {% else %}
+                        <small>No skills listed</small>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card bg-info text-white h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">Profile</h6>
+                        <small>{{ data.student.student_roll_id if data.student else "N/A" }}</small>
+                    </div>
+                    <div>
+                        <i class="bi bi-person-badge" style="font-size: 2.5rem; opacity: 0.5;"></i>
                     </div>
                 </div>
             </div>
@@ -61,6 +89,27 @@
 </div>
 
 <div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-tools"></i> My Skill Set</h5>
+            </div>
+            <div class="card-body">
+                {% if data.skills %}
+                    {% for skill in data.skills %}
+                        <span class="badge bg-secondary p-2 me-2 mb-2" style="font-size: 0.9rem;">
+                            {{ skill }}
+                        </span>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted">No skills recorded yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-md-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
@@ -89,7 +138,9 @@
                                     <td>{{ course.credits }}</td>
                                     <td>
                                         {% if course.marks %}
-                                            <span class="badge bg-success">{{ "%.2f"|format(course.marks) }}</span>
+                                            <span class="badge {{ 'bg-success' if course.marks > 50 else 'bg-danger' }}">
+                                                {{ "%.2f"|format(course.marks) }}
+                                            </span>
                                         {% else %}
                                             <span class="badge bg-secondary">Not Graded</span>
                                         {% endif %}

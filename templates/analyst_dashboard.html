@@ -3,127 +3,127 @@
 {% block title %}Data Analyst Dashboard{% endblock %}
 
 {% block content %}
-<div class="row">
+<div class="row mb-4">
     <div class="col-md-12">
-        <h2><i class="bi bi-graph-up"></i> Analytics Dashboard</h2>
-        <p class="text-muted">Course Platform Statistics and Insights</p>
+        <h2 class="fw-bold"><i class="bi bi-graph-up"></i> Analytics Dashboard</h2>
+        <p class="text-muted">Real-time insights into course performance, student engagement, and faculty workload.</p>
     </div>
 </div>
 
-<div class="row mt-4">
+<div class="row mb-4">
     <div class="col-md-6">
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h5 class="mb-0"><i class="bi bi-bar-chart"></i> Course Enrollment Statistics</h5>
+        <div class="card h-100 shadow-sm">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="bi bi-bar-chart-line"></i> Course Performance</h5>
             </div>
             <div class="card-body">
                 {% if data.course_stats %}
                     <div class="table-responsive">
-                        <table class="table table-sm table-hover">
-                            <thead>
+                        <table class="table table-sm table-hover align-middle">
+                            <thead class="table-light">
                                 <tr>
                                     <th>Course</th>
-                                    <th>Students</th>
-                                    <th>Avg Marks</th>
-                                    <th>Highest</th>
-                                    <th>Lowest</th>
+                                    <th class="text-center">Students</th>
+                                    <th class="text-center">Avg Marks</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for course in data.course_stats %}
                                 <tr>
-                                    <td>{{ course.course_name }}</td>
-                                    <td>{{ course.total_students }}</td>
-                                    <td>{{ "%.2f"|format(course.average_marks) if course.average_marks else '-' }}</td>
-                                    <td>{{ "%.2f"|format(course.highest_marks) if course.highest_marks else '-' }}</td>
-                                    <td>{{ "%.2f"|format(course.lowest_marks) if course.lowest_marks else '-' }}</td>
+                                    <td class="fw-bold">{{ course.course_name }}</td>
+                                    <td class="text-center">{{ course.total_students }}</td>
+                                    <td class="text-center">
+                                        {% if course.average_marks %}
+                                            <span class="badge {{ 'bg-success' if course.average_marks >= 80 else 'bg-warning' if course.average_marks >= 60 else 'bg-danger' }}">
+                                                {{ "%.1f"|format(course.average_marks) }}
+                                            </span>
+                                        {% else %}
+                                            <span class="text-muted">-</span>
+                                        {% endif %}
+                                    </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
                     </div>
                 {% else %}
-                    <p class="text-muted">No course statistics available.</p>
+                    <div class="text-center py-4 text-muted">No course data available</div>
                 {% endif %}
             </div>
         </div>
     </div>
     
     <div class="col-md-6">
-        <div class="card">
+        <div class="card h-100 shadow-sm">
             <div class="card-header bg-success text-white">
-                <h5 class="mb-0"><i class="bi bi-trophy"></i> Top Performing Students</h5>
+                <h5 class="mb-0"><i class="bi bi-trophy"></i> Top Students</h5>
             </div>
             <div class="card-body">
                 {% if data.top_students %}
                     <div class="table-responsive">
-                        <table class="table table-sm table-hover">
-                            <thead>
+                        <table class="table table-sm table-hover align-middle">
+                            <thead class="table-light">
                                 <tr>
                                     <th>Rank</th>
                                     <th>Name</th>
-                                    <th>Roll No</th>
                                     <th>CGPA</th>
-                                    <th>Avg Marks</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for student in data.top_students %}
                                 <tr>
                                     <td>
-                                        {% if loop.index == 1 %}
-                                            <i class="bi bi-trophy-fill text-warning"></i>
-                                        {% elif loop.index == 2 %}
-                                            <i class="bi bi-trophy-fill text-secondary"></i>
-                                        {% elif loop.index == 3 %}
-                                            <i class="bi bi-trophy-fill text-bronze"></i>
-                                        {% else %}
-                                            {{ loop.index }}
-                                        {% endif %}
+                                        {% if loop.index == 1 %}🥇{% elif loop.index == 2 %}🥈{% elif loop.index == 3 %}🥉{% else %}{{ loop.index }}{% endif %}
                                     </td>
-                                    <td>{{ student.name }}</td>
-                                    <td>{{ student.student_roll_id }}</td>
-                                    <td>{{ "%.2f"|format(student.cgpa) if student.cgpa else '-' }}</td>
-                                    <td>{{ "%.2f"|format(student.average_marks) if student.average_marks else '-' }}</td>
+                                    <td>
+                                        {{ student.name }}<br>
+                                        <small class="text-muted">{{ student.student_roll_id }}</small>
+                                    </td>
+                                    <td class="fw-bold">{{ "%.2f"|format(student.cgpa) if student.cgpa else '-' }}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
                     </div>
                 {% else %}
-                    <p class="text-muted">No student performance data available.</p>
+                    <div class="text-center py-4 text-muted">No student data available</div>
                 {% endif %}
             </div>
         </div>
     </div>
 </div>
 
-<div class="row mt-4">
-    <div class="col-md-6">
-        <div class="card">
+<div class="row mb-4">
+    <div class="col-md-7">
+        <div class="card h-100 shadow-sm">
             <div class="card-header bg-info text-white">
-                <h5 class="mb-0"><i class="bi bi-people"></i> Instructor Workload</h5>
+                <h5 class="mb-0"><i class="bi bi-person-workspace"></i> Instructor Workload</h5>
             </div>
             <div class="card-body">
                 {% if data.instructor_workload %}
                     <div class="table-responsive">
-                        <table class="table table-sm table-hover">
-                            <thead>
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
                                 <tr>
                                     <th>Instructor</th>
-                                    <th>Faculty ID</th>
                                     <th>University</th>
-                                    <th>Courses</th>
+                                    <th>Courses Taught</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for instructor in data.instructor_workload %}
                                 <tr>
-                                    <td>{{ instructor.name }}</td>
-                                    <td>{{ instructor.faculty_id }}</td>
-                                    <td>{{ instructor.university if instructor.university else 'N/A' }}</td>
                                     <td>
-                                        <span class="badge bg-primary">{{ instructor.courses_teaching }}</span>
+                                        <span class="fw-bold">{{ instructor.name }}</span><br>
+                                        <small class="text-muted">{{ instructor.faculty_id }}</small>
+                                    </td>
+                                    <td>{{ instructor.university if instructor.university else 'External' }}</td>
+                                    <td>
+                                        <span class="badge bg-primary mb-1">{{ instructor.course_count }} Courses</span>
+                                        <br>
+                                        <small class="text-muted" style="font-size: 0.8em;">
+                                            {{ instructor.course_list if instructor.course_list else 'No active courses' }}
+                                        </small>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -131,71 +131,62 @@
                         </table>
                     </div>
                 {% else %}
-                    <p class="text-muted">No instructor data available.</p>
+                    <div class="text-center py-4 text-muted">No instructor data available</div>
                 {% endif %}
             </div>
         </div>
     </div>
     
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header bg-warning text-white">
-                <h5 class="mb-0"><i class="bi bi-graph-up-arrow"></i> Enrollment Trends</h5>
+    <div class="col-md-5">
+        <div class="card h-100 shadow-sm">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0"><i class="bi bi-calendar-check"></i> Recent Enrollments</h5>
             </div>
             <div class="card-body">
                 {% if data.enrollment_trends %}
-                    <div class="table-responsive">
-                        <table class="table table-sm table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Month</th>
-                                    <th>Enrollments</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for trend in data.enrollment_trends %}
-                                <tr>
-                                    <td>{{ trend.month }}</td>
-                                    <td>{{ trend.enrollments }}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                    <ul class="list-group list-group-flush">
+                        {% for trend in data.enrollment_trends %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ trend.date }}
+                            <span class="badge bg-primary rounded-pill">{{ trend.count }} Students</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
                 {% else %}
-                    <p class="text-muted">No enrollment trend data available.</p>
+                    <div class="text-center py-4 text-muted">No recent activity</div>
                 {% endif %}
             </div>
         </div>
     </div>
 </div>
 
-<div class="row mt-4">
+<div class="row mb-4">
     <div class="col-md-6">
-        <div class="card">
-            <div class="card-header bg-dark text-white">
-                <h5 class="mb-0"><i class="bi bi-fire"></i> Most Popular Courses</h5>
+        <div class="card h-100 shadow-sm">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0"><i class="bi bi-diagram-3"></i> Students by Program</h5>
             </div>
             <div class="card-body">
-                {% if data.popular_courses %}
+                {% if data.students_by_program %}
                     <div class="table-responsive">
-                        <table class="table table-sm table-hover">
+                        <table class="table table-sm align-middle">
                             <thead>
                                 <tr>
-                                    <th>Course Name</th>
-                                    <th>Enrollments</th>
+                                    <th>Program Name</th>
+                                    <th>Unique Students</th>
+                                    <th>Distribution</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for course in data.popular_courses %}
+                                {% set max_stu = data.students_by_program[0].student_count if data.students_by_program else 1 %}
+                                {% for prog in data.students_by_program %}
                                 <tr>
-                                    <td>{{ course.name }}</td>
-                                    <td>
-                                        <div class="progress" style="height: 20px;">
-                                            <div class="progress-bar" role="progressbar" 
-                                                 style="width: {{ (course.enrollment_count / data.popular_courses[0].enrollment_count * 100) if data.popular_courses[0].enrollment_count > 0 else 0 }}%">
-                                                {{ course.enrollment_count }}
-                                            </div>
+                                    <td>{{ prog.program }}</td>
+                                    <td class="fw-bold">{{ prog.student_count }}</td>
+                                    <td style="width: 40%">
+                                        <div class="progress" style="height: 6px;">
+                                            <div class="progress-bar bg-info" role="progressbar" 
+                                                 style="width: {{ (prog.student_count / max_stu) * 100 }}%"></div>
                                         </div>
                                     </td>
                                 </tr>
@@ -204,39 +195,29 @@
                         </table>
                     </div>
                 {% else %}
-                    <p class="text-muted">No popularity data available.</p>
+                    <div class="text-center py-4 text-muted">No program data available. (Ensure Program_Courses table is populated)</div>
                 {% endif %}
             </div>
         </div>
     </div>
-    
+
     <div class="col-md-6">
-        <div class="card">
-            <div class="card-header bg-secondary text-white">
-                <h5 class="mb-0"><i class="bi bi-building"></i> University Statistics</h5>
+        <div class="card h-100 shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0"><i class="bi bi-tags"></i> Popular Topics</h5>
             </div>
             <div class="card-body">
-                {% if data.university_stats %}
-                    <div class="table-responsive">
-                        <table class="table table-sm table-hover">
-                            <thead>
-                                <tr>
-                                    <th>University</th>
-                                    <th>Courses Offered</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for uni in data.university_stats %}
-                                <tr>
-                                    <td>{{ uni.name }}</td>
-                                    <td><span class="badge bg-info">{{ uni.course_count }}</span></td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                {% if data.enrollments_by_topic %}
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for topic in data.enrollments_by_topic %}
+                        <div class="border rounded p-2 d-flex align-items-center">
+                            <span class="me-2 fw-bold">{{ topic.topic }}</span>
+                            <span class="badge bg-secondary">{{ topic.enrollment_count }}</span>
+                        </div>
+                        {% endfor %}
                     </div>
                 {% else %}
-                    <p class="text-muted">No university data available.</p>
+                    <div class="text-center py-4 text-muted">No topic data available</div>
                 {% endif %}
             </div>
         </div>
