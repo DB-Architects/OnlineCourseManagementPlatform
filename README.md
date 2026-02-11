@@ -4,11 +4,10 @@
 
 ![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
 ![Flask](https://img.shields.io/badge/Flask-2.0+-green.svg)
-![MySQL](https://img.shields.io/badge/MySQL-8.0+-orange.svg)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat&logo=postgresql&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-purple.svg)
-![License](https://img.shields.io/badge/License-Educational-red.svg)
 
-**A comprehensive web-based course management system built with Flask and MySQL**
+**A comprehensive web-based course management system built with Flask and PostgreSQL**
 
 [Features](#-features) • [Tech Stack](#-tech-stack) • [Installation](#-installation) • [Usage](#-usage) • [Database Schema](#-database-schema) • [Screenshots](#-screenshots)
 
@@ -18,7 +17,7 @@
 
 ## 📋 About The Project
 
-AcademiaPro is a full-stack web application designed for managing online courses, built as part of the **Database Management Systems Lab Assignment IV**. The platform supports four distinct user roles with specialized functionalities, providing a complete ecosystem for online education management.
+AcademiaPro is a full-stack web application designed for managing online courses. The platform supports four distinct user roles with specialized functionalities, providing a complete ecosystem for online education management.
 
 ### 👥 Development Team - The DB Architects
 
@@ -76,8 +75,8 @@ The system implements **four distinct user roles**, each with specialized dashbo
 ### Backend
 - **Python 3.8+** - Core programming language
 - **Flask 2.0+** - Web framework
-- **MySQL 8.0** - Relational database
-- **mysql-connector-python** - Database driver
+- **PostgreSQL** - Relational database
+- **postgresql-connector-python** - Database driver
 
 ### Frontend
 - **HTML5 & CSS3** - Structure and styling
@@ -89,77 +88,7 @@ The system implements **four distinct user roles**, each with specialized dashbo
 - **3-Tier Architecture**
   - Presentation Layer (HTML/CSS/JS)
   - Application Layer (Flask)
-  - Data Layer (MySQL)
-
----
-
-## 🚀 Installation
-
-### Prerequisites
-
-Ensure you have the following installed:
-- Python 3.8 or higher
-- MySQL Server 8.0 or higher
-- pip (Python package manager)
-
-### Step-by-Step Setup
-
-1. **Clone the repository**
-```bash
-git clone https://github.com/yourusername/academiapro.git
-cd academiapro
-```
-
-2. **Install Python dependencies**
-```bash
-pip install flask mysql-connector-python
-```
-
-3. **Set up MySQL database**
-```bash
-# Login to MySQL
-mysql -u root -p
-
-# Create and populate database
-source schema.sql
-```
-
-4. **Configure database connection**
-
-Edit the `DB_CONFIG` dictionary in `app.py`:
-```python
-DB_CONFIG = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': 'YOUR_PASSWORD',  # Change this
-    'database': 'course_management'
-}
-```
-
-5. **Run the application**
-```bash
-python app.py
-```
-
-6. **Access the platform**
-
-Open your browser and navigate to:
-```
-http://localhost:30032
-```
-
----
-
-## 🔑 Default Login Credentials
-
-| Role | Email | Password |
-|------|-------|----------|
-| **Admin** | admin@courseplatform.com | admin123 |
-| **Student** | alice.brown@student.edu | pass123 |
-| **Student** | bob.wilson@student.edu | pass123 |
-| **Instructor** | john.smith@mit.edu | pass123 |
-| **Instructor** | sarah.j@stanford.edu | pass123 |
-| **Analyst** | emma.watson@analyst.com | pass123 |
+  - Data Layer (PostgreSQL)
 
 ---
 
@@ -254,8 +183,8 @@ http://localhost:30032
 ```
 academiapro/
 │
-├── app.py                      # Main Flask application
-├── schema.sql                  # Database schema and sample data
+├── app_server.py                      # Main Flask application
+├── setup_database.sql                  # Database schema and sample data
 ├── requirements.txt            # Python dependencies
 │
 ├── templates/                  # HTML templates
@@ -263,7 +192,8 @@ academiapro/
 │   ├── index.html             # Landing page
 │   ├── login.html             # Authentication
 │   ├── register.html          # User registration
-│   │
+│   │__ 404.html               #client error
+|   |__ 500.html               #server html
 │   ├── student_*.html         # Student views
 │   ├── instructor_*.html      # Instructor views
 │   ├── admin_*.html           # Admin views
@@ -311,39 +241,12 @@ academiapro/
 
 ## 🔧 Configuration
 
-### Database Configuration
-
-Edit `DB_CONFIG` in `app.py`:
-```python
-DB_CONFIG = {
-    'host': 'localhost',        # Database host
-    'user': 'root',             # MySQL username
-    'password': 'password',     # MySQL password
-    'database': 'course_management'
-}
-```
-
 ### Flask Configuration
 
 ```python
 app.secret_key = 'your-secret-key'  # Change in production
 app.run(debug=True, host='0.0.0.0', port=30032)
 ```
-
----
-
-## 🧪 Sample Data
-
-The database comes pre-populated with:
-- 4 Universities (MIT, Stanford, IIT Kharagpur, UC Berkeley)
-- 3 Academic Programs
-- 6 Courses across different domains
-- 9 Users (1 Admin, 3 Instructors, 4 Students, 1 Analyst)
-- Sample enrollments with grades
-- Course content items
-- And more...
-
----
 
 ## 📚 API Endpoints
 
@@ -374,22 +277,9 @@ The database comes pre-populated with:
 
 ### Analyst Routes
 - `GET /analyst/dashboard` - Analytics dashboard
-
 ---
 
-## 🤝 Contributing
-
-This is an educational project developed for academic purposes. However, suggestions and improvements are welcome!
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
 <div align="center">
-
-**⭐ Star this repo if you found it helpful! ⭐**
 
 Made with ❤️ by The DB Architects
 
